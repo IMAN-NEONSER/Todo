@@ -9,6 +9,7 @@ from tasks.models import Tasks
 
 class HomeView(APIView):
     def get(self, request):
-        tasks = Tasks.objects.filter(user=request.user)
+        #tasks = Tasks.objects.filter(user=request.user.id)
+        tasks = Tasks.objects.all()
         ser_data = TasksSerializer(instance=tasks, many=True)
         return Response(data=ser_data.data)
