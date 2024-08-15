@@ -1,6 +1,8 @@
 from .serializer import AddTaskSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import Tasks
+from rest_framework import status
 
 
 # Create your views here.
@@ -11,3 +13,13 @@ class AddTaskView(APIView):
             ser_data.create(ser_data.validated_data)
             return Response(ser_data.data)
         return Response(ser_data.errors)
+
+
+class TaskDoneView(APIView):
+    def delete(self, request, task_id, format=None):
+        try:
+            task = Tasks.objects.get(id=task_id)
+            task.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Tasks.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
