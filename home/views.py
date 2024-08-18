@@ -4,10 +4,12 @@ from rest_framework.views import APIView
 from .serializers import TasksSerializer
 from tasks.models import Tasks
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
 class HomeView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         #tasks = Tasks.objects.filter(user=request.user.id)
         tasks = Tasks.objects.all()
