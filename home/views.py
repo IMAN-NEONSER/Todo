@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 class HomeView(APIView):
     permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         #tasks = Tasks.objects.filter(user=request.user.id)
         tasks = Tasks.objects.all()

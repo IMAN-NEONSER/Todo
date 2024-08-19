@@ -3,8 +3,9 @@ from django.contrib.auth.models import User
 
 
 def clean_email(value):
-    if 'admin' or 'root' in value:
+    if 'admin' in value or 'root' in value:
         raise serializers.ValidationError('admin or root cant be in email')
+    return value
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -22,10 +23,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         del validated_data['password2']
         return User.objects.create_user(**validated_data)
 
+
     def validate_username(self, value):
-        if value == 'admin' or 'root':
+        if value in ['admin', 'root']:
             raise serializers.ValidationError('username cant be admin or root')
         return value
+
 
     def validate(self, data):
         if data['password'] != data['password2']:
